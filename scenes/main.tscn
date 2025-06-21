@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://38cj646iwg8v"]
+
+[ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://bf26poaukenva" path="res://assets/cockroach.png" id="2_0wfyh"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_sugp2")
+
+[node name="GUICanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Control" type="Control" parent="GUICanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 550.0
+offset_right = 1150.0
+offset_bottom = 590.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUICanvasLayer/Control"]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Padding1" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="P1HealthBar" parent="GUICanvasLayer/Control/HBoxContainer" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+swap = false
+health = 27.1
+
+[node name="Padding2" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="P2HealthBar" parent="GUICanvasLayer/Control/HBoxContainer" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+swap = false
+health = 89.0
+
+[node name="Padding3" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="P1" type="Sprite2D" parent="."]
+position = Vector2(270, 343)
+scale = Vector2(7.72222, 7.72222)
+texture = ExtResource("2_0wfyh")
+
+[node name="P2" type="Sprite2D" parent="."]
+position = Vector2(833, 338)
+scale = Vector2(6.81713, 6.81713)
+texture = ExtResource("2_0wfyh")
+
+[connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/P1HealthBar" method="_on_hit"]
+[connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/P2HealthBar" method="_on_hit"]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://b64tkfd7jlw6v"]
+
+[ext_resource type="Script" uid="uid://nter66kw3u4p" path="res://scripts/health_bar.gd" id="1_1bvlm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvlm"]
+bg_color = Color(1, 0.301929, 0.502691, 1)
+
+[node name="P1HealthBar" type="PanelContainer"]
+offset_right = 400.0
+offset_bottom = 50.0
+size_flags_horizontal = 3
+script = ExtResource("1_1bvlm")
+swap = true
+health = 68.2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Health" type="ColorRect" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_1bvlm")
+value = 68.2
+fill_mode = 1
+show_percentage = false

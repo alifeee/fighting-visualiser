@@ -1,0 +1,28 @@
+@tool
+extends PanelContainer
+
+@export var swap: bool = false
+@export_range(0, 100, 0.01)  var health: float = 100:
+	set(new_value):
+		health = new_value
+		_on_health_changed(health)
+var progressbar: ProgressBar
+	
+func _ready() -> void:
+	progressbar = $MarginContainer/ProgressBar
+	if swap:
+		progressbar.fill_mode = progressbar.FILL_END_TO_BEGIN
+	else:
+		progressbar.fill_mode = progressbar.FILL_BEGIN_TO_END
+	progressbar.value = health
+
+func _process(delta: float) -> void:
+	pass
+
+func _on_health_changed(health):
+	if progressbar:
+		progressbar.value = health
+
+func _on_hit(health: float) -> void:
+	print("got hit")
+	self.health -= health
