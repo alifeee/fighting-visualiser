@@ -15,6 +15,10 @@ run/main_scene="uid://38cj646iwg8v"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [input]
 
 "hit left"={

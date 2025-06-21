@@ -4,6 +4,10 @@ live background fighting animation with [Godot](https://godotengine.org/)
 
 ![example gif](preview.gif)
 
+## export instructions
+
+Use the Godot export to export an `index.html` file to the `/build/` folder. This will be published to GitHub pages.
+
 ## to-do
 
 - think of more game juice
