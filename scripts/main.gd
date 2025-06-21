@@ -15,3 +15,13 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("hit right"):
 		print("just hit right")
 		hit_right.emit(HIT_AMOUNT)
+
+func _unhandled_input(event):
+	if event is InputEventScreenTouch or event is InputEventMouseButton:
+		if event.pressed:
+			var SCREEN_SIZE_X = get_viewport().get_visible_rect().size.x
+			var PRESSED = event.position.x
+			if PRESSED < SCREEN_SIZE_X/2:
+				hit_left.emit(HIT_AMOUNT)
+			else:
+				hit_right.emit(HIT_AMOUNT)

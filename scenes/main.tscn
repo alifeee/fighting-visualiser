@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://38cj646iwg8v"]
+[gd_scene load_steps=5 format=3 uid="uid://38cj646iwg8v"]
 
 [ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
 [ext_resource type="Texture2D" uid="uid://bf26poaukenva" path="res://assets/cockroach.png" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://dujktj8qlaq2g" path="res://scripts/character.gd" id="4_jyhfs"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_sugp2")
@@ -45,15 +46,22 @@ health = 89.0
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
+[node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
+
 [node name="P1" type="Sprite2D" parent="."]
 position = Vector2(270, 343)
 scale = Vector2(7.72222, 7.72222)
 texture = ExtResource("2_0wfyh")
+script = ExtResource("4_jyhfs")
 
 [node name="P2" type="Sprite2D" parent="."]
 position = Vector2(833, 338)
 scale = Vector2(6.81713, 6.81713)
 texture = ExtResource("2_0wfyh")
+script = ExtResource("4_jyhfs")
+OSCILLATE_OFFSET = 1.0
 
 [connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/P1HealthBar" method="_on_hit"]
 [connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/P2HealthBar" method="_on_hit"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/P1HealthBar" to="P1" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/P2HealthBar" to="P2" method="_on_die"]

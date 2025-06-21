@@ -1,12 +1,16 @@
 @tool
 extends PanelContainer
 
+signal zeroed()
+
 @export var swap: bool = false
 @export_range(0, 100, 0.01)  var health: float = 100:
 	set(new_value):
 		health = new_value
 		_on_health_changed(health)
+
 var progressbar: ProgressBar
+var dead: bool = false
 	
 func _ready() -> void:
 	progressbar = $MarginContainer/ProgressBar
@@ -24,5 +28,7 @@ func _on_health_changed(health):
 		progressbar.value = health
 
 func _on_hit(health: float) -> void:
-	print("got hit")
 	self.health -= health
+	if self.health <= 0 and not dead:
+		dead = true
+		zeroed.emit()
