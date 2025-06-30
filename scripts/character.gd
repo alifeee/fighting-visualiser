@@ -15,7 +15,7 @@ func _ready() -> void:
 	time_start = Time.get_ticks_msec()
 	INITIAL_Y = position.y
 	if alive:
-		self.play()
+		self.play("default")
 
 func _process(delta: float) -> void:
 	if alive:

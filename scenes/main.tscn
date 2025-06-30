@@ -53,16 +53,13 @@ layout_mode = 2
 position = Vector2(296, 361)
 scale = Vector2(7, 7)
 sprite_frames = ExtResource("3_tbgi4")
-animation = &"gethit"
-frame = 16
-frame_progress = 1.0
 script = ExtResource("4_jyhfs")
 
 [node name="P2" type="AnimatedSprite2D" parent="."]
 position = Vector2(842, 383)
 scale = Vector2(9, 9)
 sprite_frames = ExtResource("5_tefeu")
-frame_progress = 0.318937
+frame_progress = 0.684827
 script = ExtResource("4_jyhfs")
 OSCILLATE_OFFSET = 1.0
 
