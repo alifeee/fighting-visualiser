@@ -6,7 +6,13 @@ live background fighting animation with [Godot](https://godotengine.org/)
 
 ## export instructions
 
-Use the Godot export to export an `index.html` file to the `/build/` folder. This will be published to GitHub pages.
+Use the Godot export to export an `index.html` file to the `/build/` folder.
+
+Publish this on my server:
+
+```bash
+rsync -rv build/* server:/var/www/emporium-fighting-visualiser/
+```
 
 ## to-do
 
