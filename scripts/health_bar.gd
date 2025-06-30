@@ -4,7 +4,7 @@ extends PanelContainer
 signal zeroed()
 
 @export var swap: bool = false
-@export_range(0, 100, 0.01)  var health: float = 100:
+@export_range(0, 100, 0.01) var health: float = 100:
 	set(new_value):
 		health = new_value
 		_on_health_changed(health)
@@ -21,14 +21,16 @@ func _ready() -> void:
 	progressbar.value = health
 
 func _process(delta: float) -> void:
-	pass
+	progressbar.value = lerp(progressbar.value, health, 0.1)
+	if progressbar.value <= 0 and not dead:
+		dead = true
+		zeroed.emit()
 
 func _on_health_changed(health):
-	if progressbar:
-		progressbar.value = health
+	# if progressbar:
+	#	progressbar.value = health
+	# do nothing - health bar continually follows health
+	pass
 
 func _on_hit(health: float) -> void:
 	self.health -= health
-	if self.health <= 0 and not dead:
-		dead = true
-		zeroed.emit()

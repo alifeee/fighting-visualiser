@@ -17,7 +17,9 @@ func _process(delta: float) -> void:
 		hit_right.emit(HIT_AMOUNT)
 
 func _unhandled_input(event):
-	if event is InputEventScreenTouch or event is InputEventMouseButton:
+	# listening to InputEventScreenTouch here is pointless
+	#   as phones send an InputEventMouseButton anyway
+	if event is InputEventMouseButton:
 		if event.pressed:
 			var SCREEN_SIZE_X = get_viewport().get_visible_rect().size.x
 			var PRESSED = event.position.x
