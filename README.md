@@ -2,7 +2,7 @@
 
 live background fighting animation with [Godot](https://godotengine.org/)
 
-![example gif](preview.webm)
+![example gif](preview.gif)
 
 ## controls:
 
