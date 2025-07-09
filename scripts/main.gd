@@ -3,6 +3,8 @@ extends Node2D
 @export var health_unit = 1
 @export var health_step = 2 # 
 
+signal reset
+
 var damage = 5
 signal hit_left(health)
 signal hit_right(health)
@@ -30,6 +32,8 @@ func _process(delta: float) -> void:
 	if trauma:
 		trauma = max(trauma - decay * delta, 0)
 		camshake()
+	if Input.is_action_just_pressed("reset"):
+		reset.emit()
 	if Input.is_action_just_pressed("hit left"):
 		print("just hit left")
 		hit_left.emit(damage)

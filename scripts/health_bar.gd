@@ -27,9 +27,17 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	progressbar.value = lerp(progressbar.value, health, 0.1)
-	if progressbar.value <= 0 and not dead:
+	if health <= 0 and not dead:
 		dead = true
 		zeroed.emit()
+
+func reset():
+	progressbar.value = progressbar.max_value
+	dead = false
+	health = 100
+
+func _on_reset():
+	reset()
 
 func _on_health_changed(health):
 	# if progressbar:

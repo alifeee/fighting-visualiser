@@ -101,17 +101,22 @@ centered = false
 
 [node name="P1" type="AnimatedSprite2D" parent="."]
 position = Vector2(296, 361)
+rotation = 1.5708
 scale = Vector2(7, 7)
 sprite_frames = ExtResource("3_tbgi4")
-frame_progress = 0.0250393
+frame_progress = 0.694009
 script = ExtResource("4_jyhfs")
+SWAP_ACTIONS = -1.0
+DEATH_RIGHTWARD_PIXELS = -100.0
 
 [node name="P2" type="AnimatedSprite2D" parent="."]
 position = Vector2(836, 294)
 scale = Vector2(9, 9)
 sprite_frames = ExtResource("5_tefeu")
-frame_progress = 0.719905
+frame_progress = 0.442873
 script = ExtResource("4_jyhfs")
+DEATH_RIGHTWARD_PIXELS = 150.0
+DEATH_DOWNWARD_PIXELS = 180.0
 OSCILLATE_OFFSET = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -120,8 +125,14 @@ anchor_mode = 0
 [connection signal="hit_left" from="." to="." method="_on_hit_"]
 [connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
+[connection signal="hit_left" from="." to="P2" method="_on_do_hit"]
 [connection signal="hit_right" from="." to="." method="_on_hit_"]
 [connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
+[connection signal="hit_right" from="." to="P1" method="_on_do_hit"]
 [connection signal="hit_right" from="." to="P2" method="_on_hit"]
+[connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
+[connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
+[connection signal="reset" from="." to="P1" method="_on_reset"]
+[connection signal="reset" from="." to="P2" method="_on_reset"]
 [connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
 [connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
