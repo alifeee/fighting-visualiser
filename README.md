@@ -2,7 +2,14 @@
 
 live background fighting animation with [Godot](https://godotengine.org/)
 
-![example gif](preview.gif)
+![example gif](preview.webm)
+
+## controls:
+
+- `0`,`1`,`2`,`3`,`4`,`5`,`6`,`7`,`8`,`9`: set power level
+- `CTRL + R` / `ESC`: reset
+- `LEFT ARROW KEY`: hit left character
+- `RIGHT ARROW KEY`: hit right character
 
 ## export instructions
 
@@ -18,36 +25,25 @@ rsync -rv build/* server:/var/www/emporium-fighting-visualiser/
 
 - think of more game juice
 - add game juice
-  - screen-shake on hit
   - characters
-    - idle animation (bop up down/sprite animation)
     - idle gestures (randomly triggered gestures)
     - hit animation
     - death animation
-    - emit particles on hit
   - bars
     - on hit (reduce):
       - emit particles
-      - animate (do not jump)
-      - blow up/inflate/pop
     - on idle
       - emit particles
 - add ease of use
-  - reset button
   - sprite chooser
   - in-game sprite uploader?
 - export game to website/webpage
 
 ## further game juice
 
-- Particle effects on hit/damage, like some blood splat, or impact hits
-- Small screen shake on hit, you could tween punch the camera position
-- Have the character or health bar quickly flash white on impact
-- Tween punch the size of the character on hit
 - sound effects
 - Combat BGM
 - They should play an attack animation when the opponent gets hit?
-- Background art
 - have spectators cheer every time someone gets hit
 - Scoreboard/points system???
 - Randomize the character overlay colour?
