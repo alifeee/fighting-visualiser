@@ -95,7 +95,7 @@ func _on_die():
 	# rotate
 	tween.tween_property(
 		self, "rotation", SWAP_ACTIONS * PI/2, DEATH_TIME
-	)
+	).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(
 		self, "position:y", position.y + DEATH_DOWNWARD_PIXELS, DEATH_TIME
 	).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
