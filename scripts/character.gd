@@ -30,11 +30,13 @@ var time_now = 0
 @export var BULGE_TIME = 0.15
 
 var INITIAL_POSITION
+var INITIAL_SCALE
 var alive: bool = true
 
 func _ready() -> void:
 	time_start = Time.get_ticks_msec()
 	INITIAL_POSITION = position
+	INITIAL_SCALE = scale
 	reset()
 
 func _process(delta: float) -> void:
@@ -80,8 +82,8 @@ func _on_hit(health: Variant) -> void:
 	).from(15)
 	# bulge
 	tween.tween_property(
-		self, "scale", scale, BULGE_TIME
-	).from(scale * 1.2)
+		self, "scale", INITIAL_SCALE, BULGE_TIME
+	).from(INITIAL_SCALE * 1.2)
 	
 	# emit particles
 	if particles2d:
