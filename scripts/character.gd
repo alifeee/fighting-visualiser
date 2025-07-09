@@ -5,6 +5,9 @@ extends AnimatedSprite2D
 
 var time_start = 0
 var time_now = 0
+
+@export var particles2d: CPUParticles2D
+
 # swap any actions from left to right/etc
 @export var SWAP_ACTIONS: float = 1
 
@@ -62,19 +65,26 @@ func _on_do_hit(health: Variant):
 
 func _on_hit(health: Variant) -> void:
 	if not alive: return
+	
+	# animation
 	self.play("gethit")
 	self.animation_finished.connect(
 		func (): self.play("default")
 	)
-	var tween = get_tree().create_tween()
+	
 	# flash white
+	var tween = get_tree().create_tween()
 	tween.set_parallel().tween_property(
 		self, "modulate:v", 1, FLASH_WHITE_TIME
 	).from(15)
 	# bulge
 	tween.tween_property(
 		self, "scale", scale, BULGE_TIME
-	).from(scale * 1.1)
+	).from(scale * 1.2)
+	
+	# emit particles
+	if particles2d:
+		particles2d.emitting = true
 
 func _on_die():
 	rotation = SWAP_ACTIONS * PI/2
