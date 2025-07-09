@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://nter66kw3u4p" path="res://scripts/health_bar.gd" id="1_1bvlm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvlm"]
+resource_name = "health_stylebox"
 bg_color = Color(1, 0.301929, 0.502691, 1)
 
 [node name="P1HealthBar" type="CenterContainer"]
@@ -34,6 +35,5 @@ color = Color(1, 0, 0, 1)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/fill = SubResource("StyleBoxFlat_1bvlm")
-value = 68.2
-fill_mode = 1
+value = 100.0
 show_percentage = false
