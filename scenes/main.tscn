@@ -31,7 +31,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 2.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ya4ey"]
@@ -269,6 +269,8 @@ script = ExtResource("4_tipki")
 position = Vector2(0, 35)
 scale = Vector2(4.83193, 4.83193)
 sprite_frames = SubResource("SpriteFrames_85g3d")
+autoplay = "default"
+frame_progress = 0.301589
 centered = false
 
 [node name="P1" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("particles2d")]
@@ -353,18 +355,18 @@ p1 = NodePath("../P1")
 p2 = NodePath("../P2")
 
 [connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
-[connection signal="hit_left" from="." to="Camera2D" method="_on_hit_"]
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
 [connection signal="hit_left" from="." to="P2" method="_on_do_hit"]
+[connection signal="hit_left" from="." to="Camera2D" method="_on_hit_"]
 [connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
-[connection signal="hit_right" from="." to="Camera2D" method="_on_hit_"]
 [connection signal="hit_right" from="." to="P1" method="_on_do_hit"]
 [connection signal="hit_right" from="." to="P2" method="_on_hit"]
+[connection signal="hit_right" from="." to="Camera2D" method="_on_hit_"]
 [connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
 [connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
 [connection signal="reset" from="." to="P1" method="_on_reset"]
 [connection signal="reset" from="." to="P2" method="_on_reset"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="Camera2D" method="_on_p1_die"]
 [connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="Camera2D" method="_on_p2_die"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="Camera2D" method="_on_p1_die"]
 [connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="Camera2D" method="_on_p2_die"]
