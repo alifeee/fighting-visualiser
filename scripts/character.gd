@@ -67,6 +67,7 @@ func _on_hit(health: Variant) -> void:
 	if not alive: return
 	
 	# animation
+	self.frame = 0
 	self.play("gethit")
 	self.animation_finished.connect(
 		func (): self.play("default")
@@ -87,13 +88,21 @@ func _on_hit(health: Variant) -> void:
 		particles2d.emitting = true
 
 func _on_die():
-	rotation = SWAP_ACTIONS * PI/2
+	# slow-mo on death
+	# Globals.start_slow_motion(0.5)
 	alive = false
 	var tween = get_tree().create_tween()
-	tween.set_parallel().tween_property(
+	# rotate
+	tween.tween_property(
+		self, "rotation", SWAP_ACTIONS * PI/2, DEATH_TIME
+	)
+	tween.parallel().tween_property(
 		self, "position:y", position.y + DEATH_DOWNWARD_PIXELS, DEATH_TIME
 	).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	tween.tween_property(
+	tween.parallel().tween_property(
 		self, "position:x", position.x + DEATH_RIGHTWARD_PIXELS, DEATH_TIME
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(
+		Globals.stop_slow_motion
+	)
 	self.stop()
