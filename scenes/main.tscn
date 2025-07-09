@@ -1,10 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://38cj646iwg8v"]
+[gd_scene load_steps=12 format=3 uid="uid://38cj646iwg8v"]
 
 [ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cosx7hmo6oavl" path="res://assets/background_sky.png" id="3_o6xl0"]
 [ext_resource type="SpriteFrames" uid="uid://ca0vjoqfa2bap" path="res://scenes/Neil.tres" id="3_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://dwj1i08chch0r" path="res://assets/background.png" id="3_tefeu"]
 [ext_resource type="Script" uid="uid://dujktj8qlaq2g" path="res://scripts/character.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://cqil0qubbochu" path="res://scripts/sky.gd" id="4_tipki"]
 [ext_resource type="SpriteFrames" uid="uid://3gmkr8470671" path="res://assets/Cockaroacha.tres" id="5_tefeu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6xl0"]
+atlas = ExtResource("3_tefeu")
+region = Rect2(0, 0, 238, 99)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tipki"]
+atlas = ExtResource("3_tefeu")
+region = Rect2(0, 99, 238, 99)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_85g3d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6xl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tipki")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_sugp2")
@@ -29,19 +54,31 @@ alignment = 1
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="P1HealthBar" parent="GUICanvasLayer/Control/HBoxContainer" instance=ExtResource("1_o5qli")]
+[node name="Control" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
-swap = false
-health = 100.0
+
+[node name="P1HealthBar" parent="GUICanvasLayer/Control/HBoxContainer/Control" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+offset_left = 200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 20.0
 
 [node name="Padding2" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="P2HealthBar" parent="GUICanvasLayer/Control/HBoxContainer" instance=ExtResource("1_o5qli")]
+[node name="Control2" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
-swap = false
-health = 100.0
+
+[node name="P2HealthBar" parent="GUICanvasLayer/Control/HBoxContainer/Control2" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+offset_left = 200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 20.0
 
 [node name="Padding3" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
@@ -49,23 +86,36 @@ layout_mode = 2
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
 
+[node name="sky" type="Sprite2D" parent="."]
+scale = Vector2(4.832, 4.832)
+texture = ExtResource("3_o6xl0")
+centered = false
+script = ExtResource("4_tipki")
+
+[node name="background" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 35)
+scale = Vector2(4.83193, 4.83193)
+sprite_frames = SubResource("SpriteFrames_85g3d")
+centered = false
+
 [node name="P1" type="AnimatedSprite2D" parent="."]
 position = Vector2(296, 361)
 scale = Vector2(7, 7)
 sprite_frames = ExtResource("3_tbgi4")
+frame_progress = 0.454924
 script = ExtResource("4_jyhfs")
 
 [node name="P2" type="AnimatedSprite2D" parent="."]
-position = Vector2(842, 383)
+position = Vector2(836, 294)
 scale = Vector2(9, 9)
 sprite_frames = ExtResource("5_tefeu")
-frame_progress = 0.684827
+frame_progress = 0.494473
 script = ExtResource("4_jyhfs")
 OSCILLATE_OFFSET = 1.0
 
-[connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/P1HealthBar" method="_on_hit"]
+[connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
-[connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/P2HealthBar" method="_on_hit"]
+[connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
 [connection signal="hit_right" from="." to="P2" method="_on_hit"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/P1HealthBar" to="P1" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/P2HealthBar" to="P2" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]

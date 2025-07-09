@@ -8,6 +8,10 @@ var time_now = 0
 @export var OSCILLATE_AMPLITUDE: float = 10
 @export var OSCILLATE_FREQ: float = 0.01
 @export var OSCILLATE_OFFSET: float = 0
+# hit anim
+const FLASH_WHITE_TIME = 0.15
+const BULGE_TIME = 0.15
+
 var INITIAL_Y
 var alive: bool = true
 
@@ -29,6 +33,15 @@ func _on_hit(health: Variant) -> void:
 	self.animation_finished.connect(
 		func (): self.play("default")
 	)
+	var tween = get_tree().create_tween()
+	# flash white
+	tween.set_parallel().tween_property(
+		self, "modulate:v", 1, FLASH_WHITE_TIME
+	).from(15)
+	# bulge
+	tween.tween_property(
+		self, "scale", scale, BULGE_TIME
+	).from(scale * 1.1)
 
 func _on_die():
 	rotation += PI/2
