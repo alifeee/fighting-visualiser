@@ -54,6 +54,12 @@ func reset():
 func _on_reset():
 	reset()
 
+func _finish_animation():
+	if animation == "gethit":
+		self.play("default")
+	elif animation == "death":
+		pass
+
 func _on_do_hit(health: Variant):
 	var tween = get_tree().create_tween()
 	tween.tween_property(
@@ -71,9 +77,7 @@ func _on_hit(health: Variant) -> void:
 	# animation
 	self.frame = 0
 	self.play("gethit")
-	self.animation_finished.connect(
-		func (): self.play("default")
-	)
+	self.animation_finished.connect(_finish_animation)
 	
 	# flash white
 	var tween = get_tree().create_tween()
@@ -107,4 +111,13 @@ func _on_die():
 	tween.tween_callback(
 		Globals.stop_slow_motion
 	)
-	self.stop()
+	var death_or_stop = func():
+		self.play("death")
+		if animation == "death":
+			rotation = 0
+		else:
+			self.stop()
+	tween.tween_callback(
+		death_or_stop
+	)
+	animation

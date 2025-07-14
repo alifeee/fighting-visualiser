@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://38cj646iwg8v"]
+[gd_scene load_steps=40 format=3 uid="uid://38cj646iwg8v"]
 
 [ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dwj1i08chch0r" path="res://assets/background.png" id="3_tefeu"]
 [ext_resource type="Script" uid="uid://dujktj8qlaq2g" path="res://scripts/character.gd" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://cqil0qubbochu" path="res://scripts/sky.gd" id="4_tipki"]
+[ext_resource type="Texture2D" uid="uid://wm53yy4sq0dx" path="res://assets/floor.png" id="5_eb6dy"]
 [ext_resource type="SpriteFrames" uid="uid://3gmkr8470671" path="res://assets/Cockaroacha.tres" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://b4wuofxque8st" path="res://assets/Lizard-Neil_idle.png" id="6_choun"]
 [ext_resource type="Texture2D" uid="uid://f7pm8gah4mhn" path="res://assets/Lizard-Neil_gethit.png" id="7_ya4ey"]
@@ -265,6 +266,11 @@ texture = ExtResource("3_o6xl0")
 centered = false
 script = ExtResource("4_tipki")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(575.25, 711.25)
+scale = Vector2(4.7, 4.7)
+texture = ExtResource("5_eb6dy")
+
 [node name="background" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 35)
 scale = Vector2(4.83193, 4.83193)
@@ -287,7 +293,7 @@ DEATH_RIGHTWARD_PIXELS = -100.0
 position = Vector2(813.5, 333.812)
 scale = Vector2(7.875, 7.875)
 sprite_frames = ExtResource("5_tefeu")
-frame_progress = 0.703202
+animation = &"death"
 script = ExtResource("4_jyhfs")
 particles2d = NodePath("../P2Particles")
 DEATH_RIGHTWARD_PIXELS = 150.0
