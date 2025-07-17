@@ -1,11 +1,14 @@
 extends Node2D
 
-var GAME_ACTIVE = false
-
 @export var hideonstart: ColorRect
 @export var greyscale_filter: ColorRect
+@export var IntroSky: Sprite2D
+@export var IntroSky_initialposition_y: float = 218.0
+@export var IntroSkyBackground: ColorRect
 @export var health_unit = 1
 @export var health_step = 2 # 
+
+var intro_tween: Tween
 
 signal reset
 
@@ -22,14 +25,35 @@ func _init() -> void:
 		set_health_inputs.append("set damage %s" % num)
 
 func _ready() -> void:
-	if hideonstart:
-		hideonstart.visible = true
-	
+	_on_reset()
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		reset.emit()
 	if Input.is_action_just_pressed("start"):
-		start()
+		if Globals.GAME_STATE == Globals.GAME_PRE_INTRO:
+			if hideonstart:
+				hideonstart.visible = false
+			Globals.GAME_STATE = Globals.GAME_INTRO_SCREEN
+		elif Globals.GAME_STATE == Globals.GAME_INTRO_SCREEN:
+			intro_tween = get_tree().create_tween()
+			const INTRO_WIPE_DURATION = 1.5
+			const INTRO_WIPE_Y_OFFSET = 600
+			intro_tween.tween_property(
+				IntroSky, "position:y", INTRO_WIPE_Y_OFFSET, INTRO_WIPE_DURATION
+			).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
+			intro_tween.parallel().tween_property(
+				IntroSkyBackground, "color:a", 0, INTRO_WIPE_DURATION
+			).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+			intro_tween.tween_callback(
+				func ():
+					Globals.GAME_STATE = Globals.GAME_PLAYING
+			)
+	if (
+		Globals.GAME_STATE != Globals.GAME_PLAYING and 
+		Globals.GAME_STATE != Globals.GAME_DEAD
+	):
+		return
 	if Input.is_action_just_pressed("hit left"):
 		hit("left", damage)
 	if Input.is_action_just_pressed("hit right"):
@@ -41,6 +65,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event):
 	# listening to InputEventScreenTouch here is pointless
 	#   as phones send an InputEventMouseButton anyway
+	if Globals.GAME_STATE != Globals.GAME_PLAYING:
+		return
 	if event is InputEventMouseButton:
 		if event.pressed:
 			var SCREEN_SIZE_X = get_viewport().get_visible_rect().size.x
@@ -51,27 +77,25 @@ func _unhandled_input(event):
 				hit("right", damage)
 
 func hit(direction: String, hitdamage):
-	if not GAME_ACTIVE:
-		return
 	if direction == "left":
 		hit_left.emit(hitdamage)
 	elif direction == "right":
 		hit_right.emit(hitdamage) 
 
-func start():
-	reset.emit()
-	if hideonstart:
-		hideonstart.visible = false
-	GAME_ACTIVE = true
-
 func _on_reset() -> void:
+	print("resset!")
 	hideonstart.visible = true
-	GAME_ACTIVE = false
 	damage = 5
 	set_greyscale(0.0)
+	if intro_tween:
+		intro_tween.kill()
+	IntroSky.position.y = IntroSky_initialposition_y
+	IntroSkyBackground.color.a = 1.0  
+	Globals.GAME_STATE = Globals.GAME_PRE_INTRO
 
-func _on_death():
+func _on_death():  
 	set_greyscale(0.9)
+	Globals.GAME_STATE = Globals.GAME_DEAD
  
 func set_greyscale(amt: float):
 	(greyscale_filter.material as ShaderMaterial
