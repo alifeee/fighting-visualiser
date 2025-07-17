@@ -21,7 +21,8 @@ func _init() -> void:
 		set_health_inputs.append("set damage %s" % num)
 
 func _ready() -> void:
-	pass
+	if hideonstart:
+		hideonstart.visible = true
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):

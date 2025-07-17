@@ -352,6 +352,7 @@ layout_mode = 2
 [node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
 
 [node name="ColorRect" type="ColorRect" parent="GUICanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -368,6 +369,8 @@ limit_bottom = 648
 script = ExtResource("3_choun")
 p1 = NodePath("../P1")
 p2 = NodePath("../P2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
 [connection signal="hit_left" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
