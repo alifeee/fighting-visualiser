@@ -43,17 +43,16 @@ func _process(delta: float) -> void:
 			intro_tween = get_tree().create_tween()
 			const INTRO_WIPE_DURATION = 1.5
 			const INTRO_WIPE_Y_OFFSET = 600
-			IntroSkyMenu.visible = false
+			Globals.GAME_STATE = Globals.GAME_PLAYING
 			intro_tween.tween_property(
+				IntroSkyMenu, "modulate:a", 0.0, INTRO_WIPE_DURATION
+			).set_trans(Tween.TRANS_EXPO ).set_ease(Tween.EASE_OUT)
+			intro_tween.parallel().tween_property(
 				IntroSky, "position:y", INTRO_WIPE_Y_OFFSET, INTRO_WIPE_DURATION
 			).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
 			intro_tween.parallel().tween_property(
 				IntroSkyBackground, "color:a", 0, INTRO_WIPE_DURATION
 			).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-			intro_tween.tween_callback(
-				func ():
-					Globals.GAME_STATE = Globals.GAME_PLAYING
-			)
 	if (
 		Globals.GAME_STATE != Globals.GAME_PLAYING and 
 		Globals.GAME_STATE != Globals.GAME_DEAD
@@ -98,7 +97,7 @@ func _on_reset() -> void:
 		gameover_tween.kill()
 	IntroSky.position.y = IntroSky_initialposition_y
 	IntroSkyBackground.color.a = 1.0
-	IntroSkyMenu.visible = true
+	IntroSkyMenu.modulate.a = 1.0 
 	GameOverMenu.modulate.a = 0.0
 	Globals.GAME_STATE = Globals.GAME_PRE_INTRO
 
@@ -113,10 +112,17 @@ func _on_p2_death():
 	_on_death()
 
 func _on_death():
-	set_greyscale(0.9)
-	Globals.GAME_STATE = Globals.GAME_DEAD
+	const GAMEOVER_WAIT_DURATION = 1.5
 	const GAMEOVER_WIPE_DURATION = 1.5
+	Globals.GAME_STATE = Globals.GAME_DEAD
 	gameover_tween = get_tree().create_tween()
+	gameover_tween.tween_property(
+		(greyscale_filter.material as ShaderMaterial),
+		"shader_parameter/onoff",
+		1,
+		GAMEOVER_WIPE_DURATION
+	)
+	gameover_tween.parallel().tween_interval(GAMEOVER_WAIT_DURATION)
 	gameover_tween.tween_property(
 		GameOverMenu, "modulate:a", 1.0, GAMEOVER_WIPE_DURATION
 	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
