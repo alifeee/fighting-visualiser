@@ -221,10 +221,10 @@ shader_parameter/onoff = 0.0
 
 [node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter", "IntroSky", "IntroSkyBackground")]
 script = ExtResource("1_sugp2")
-hideonstart = NodePath("HealthBars/WhiteBeginScreen")
+hideonstart = NodePath("BeginScreen/BlackBeginScreen")
 greyscale_filter = NodePath("Shaders/GreyscaleShader")
-IntroSky = NodePath("HealthBars/IntroSky")
-IntroSkyBackground = NodePath("HealthBars/IntroSkyBackground")
+IntroSky = NodePath("IntroSky/IntroSky")
+IntroSkyBackground = NodePath("IntroSky/IntroSkyBackground")
 
 [node name="sky" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_jbj1t")
@@ -366,7 +366,9 @@ offset_bottom = 20.0
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="IntroSkyBackground" type="ColorRect" parent="HealthBars"]
+[node name="IntroSky" type="CanvasLayer" parent="."]
+
+[node name="IntroSkyBackground" type="ColorRect" parent="IntroSky"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -374,21 +376,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.882353, 0.435294, 0.156863, 1)
 
-[node name="IntroSky" type="Sprite2D" parent="HealthBars"]
+[node name="IntroSky" type="Sprite2D" parent="IntroSky"]
 material = SubResource("ShaderMaterial_jkv2x")
 position = Vector2(-25, 218)
 scale = Vector2(4.832, 4.832)
 texture = ExtResource("12_a8y0u")
 centered = false
-
-[node name="WhiteBeginScreen" type="ColorRect" parent="HealthBars"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [node name="MainCamera" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
 position = Vector2(575, 325)
@@ -399,6 +392,17 @@ limit_bottom = 648
 script = ExtResource("3_choun")
 p1 = NodePath("../P1")
 p2 = NodePath("../P2")
+
+[node name="BeginScreen" type="CanvasLayer" parent="."]
+
+[node name="BlackBeginScreen" type="ColorRect" parent="BeginScreen"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Shaders" type="CanvasLayer" parent="."]
 

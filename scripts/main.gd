@@ -93,7 +93,7 @@ func _on_reset() -> void:
 	IntroSkyBackground.color.a = 1.0  
 	Globals.GAME_STATE = Globals.GAME_PRE_INTRO
 
-func _on_death():  
+func _on_death():
 	set_greyscale(0.9)
 	Globals.GAME_STATE = Globals.GAME_DEAD
  
