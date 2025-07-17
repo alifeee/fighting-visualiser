@@ -21,6 +21,7 @@ Globals="*res://scripts/globals.gd"
 
 [display]
 
+window/size/viewport_height=972
 window/stretch/mode="viewport"
 
 [input]
