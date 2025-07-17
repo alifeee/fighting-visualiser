@@ -3,6 +3,7 @@ extends Node2D
 var GAME_ACTIVE = false
 
 @export var hideonstart: ColorRect
+@export var greyscale_filter: ColorRect
 @export var health_unit = 1
 @export var health_step = 2 # 
 
@@ -55,9 +56,23 @@ func hit(direction: String, hitdamage):
 	if direction == "left":
 		hit_left.emit(hitdamage)
 	elif direction == "right":
-		hit_left.emit(hitdamage)
+		hit_right.emit(hitdamage) 
 
 func start():
 	reset.emit()
 	if hideonstart:
 		hideonstart.visible = false
+	GAME_ACTIVE = true
+
+func _on_reset() -> void:
+	hideonstart.visible = true
+	GAME_ACTIVE = false
+	damage = 5
+	set_greyscale(0.0)
+
+func _on_death():
+	set_greyscale(0.9)
+ 
+func set_greyscale(amt: float):
+	(greyscale_filter.material as ShaderMaterial
+	).set_shader_parameter("onoff", amt)
