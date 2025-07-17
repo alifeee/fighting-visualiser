@@ -5,6 +5,7 @@ extends Node2D
 @export var IntroSky: Sprite2D
 @export var IntroSky_initialposition_y: float = 218.0
 @export var IntroSkyBackground: ColorRect
+@export var IntroSkyMenu: Control
 @export var health_unit = 1
 @export var health_step = 2 # 
 
@@ -39,6 +40,7 @@ func _process(delta: float) -> void:
 			intro_tween = get_tree().create_tween()
 			const INTRO_WIPE_DURATION = 1.5
 			const INTRO_WIPE_Y_OFFSET = 600
+			IntroSkyMenu.visible = false
 			intro_tween.tween_property(
 				IntroSky, "position:y", INTRO_WIPE_Y_OFFSET, INTRO_WIPE_DURATION
 			).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
@@ -90,7 +92,8 @@ func _on_reset() -> void:
 	if intro_tween:
 		intro_tween.kill()
 	IntroSky.position.y = IntroSky_initialposition_y
-	IntroSkyBackground.color.a = 1.0  
+	IntroSkyBackground.color.a = 1.0
+	IntroSkyMenu.visible = true
 	Globals.GAME_STATE = Globals.GAME_PRE_INTRO
 
 func _on_death():

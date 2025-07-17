@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://38cj646iwg8v"]
+[gd_scene load_steps=49 format=3 uid="uid://38cj646iwg8v"]
 
 [ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://dpdyj2td3oh50" path="res://assets/dust.png" id="9_85g3d"]
 [ext_resource type="Texture2D" uid="uid://cg80xq5vwy61a" path="res://assets/background_sky-intro.png" id="12_a8y0u"]
 [ext_resource type="Shader" uid="uid://vlvn1f4cdsil" path="res://scripts/greyscale.gdshader" id="13_a8y0u"]
+[ext_resource type="Script" uid="uid://dnof0s1ioa5e8" path="res://scripts/menu.gd" id="13_jbj1t"]
+[ext_resource type="FontFile" uid="uid://cufudlp63bbdo" path="res://assets/PressStart2P-vaV7.ttf" id="13_jkv2x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
 shader = ExtResource("2_jkv2x")
@@ -215,16 +217,27 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 shader = ExtResource("2_jkv2x")
 shader_parameter/speed = Vector2(0.01, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkv2x"]
+bg_color = Color(0.25, 0.25, 0.25, 0.294118)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_jkv2x"]
+font_size = 28
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
 shader = ExtResource("13_a8y0u")
 shader_parameter/onoff = 0.0
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter", "IntroSky", "IntroSkyBackground")]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter", "IntroSky", "IntroSkyBackground", "IntroSkyMenu")]
 script = ExtResource("1_sugp2")
 hideonstart = NodePath("BeginScreen/BlackBeginScreen")
 greyscale_filter = NodePath("Shaders/GreyscaleShader")
 IntroSky = NodePath("IntroSky/IntroSky")
 IntroSkyBackground = NodePath("IntroSky/IntroSkyBackground")
+IntroSkyMenu = NodePath("IntroSky/CenterContainer/Container")
 
 [node name="sky" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_jbj1t")
@@ -382,6 +395,71 @@ position = Vector2(-25, 218)
 scale = Vector2(4.832, 4.832)
 texture = ExtResource("12_a8y0u")
 centered = false
+
+[node name="CenterContainer" type="CenterContainer" parent="IntroSky"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="Control" parent="IntroSky/CenterContainer" node_paths=PackedStringArray("flash_selection", "flash_dotdotdot")]
+custom_minimum_size = Vector2(450, 180)
+layout_mode = 2
+script = ExtResource("13_jbj1t")
+flash_selection = NodePath("VBoxContainer/2 PLAYER")
+flash_dotdotdot = NodePath("VBoxContainer/Label")
+
+[node name="Panel" type="Panel" parent="IntroSky/CenterContainer/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jkv2x")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="IntroSky/CenterContainer/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RichTextLabel" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "START GAME"
+label_settings = SubResource("LabelSettings_jkv2x")
+horizontal_alignment = 1
+
+[node name="Padding2" type="Control" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="1 PLAYER" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "  1 PLAYER"
+horizontal_alignment = 1
+
+[node name="2 PLAYER" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "> 2 PLAYER"
+horizontal_alignment = 1
+
+[node name="Padding" type="Control" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "PRESS A TO BEGIN…"
+horizontal_alignment = 1
 
 [node name="MainCamera" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
 position = Vector2(575, 325)
