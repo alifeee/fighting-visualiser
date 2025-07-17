@@ -205,75 +205,25 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_85g3d"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart")]
 script = ExtResource("1_sugp2")
-
-[node name="GUICanvasLayer" type="CanvasLayer" parent="."]
-follow_viewport_enabled = true
-
-[node name="Control" type="Control" parent="GUICanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 550.0
-offset_right = 1150.0
-offset_bottom = 590.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="GUICanvasLayer/Control"]
-layout_mode = 0
-offset_right = 1150.0
-offset_bottom = 40.0
-alignment = 1
-
-[node name="Padding1" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="Control" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
-custom_minimum_size = Vector2(400, 40)
-layout_mode = 2
-
-[node name="P1HealthBar" parent="GUICanvasLayer/Control/HBoxContainer/Control" instance=ExtResource("1_o5qli")]
-layout_mode = 2
-offset_left = 200.0
-offset_top = 20.0
-offset_right = 200.0
-offset_bottom = 20.0
-
-[node name="Padding2" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="Control2" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
-custom_minimum_size = Vector2(400, 40)
-layout_mode = 2
-
-[node name="P2HealthBar" parent="GUICanvasLayer/Control/HBoxContainer/Control2" instance=ExtResource("1_o5qli")]
-layout_mode = 2
-offset_left = 200.0
-offset_top = 20.0
-offset_right = 200.0
-offset_bottom = 20.0
-
-[node name="Padding3" type="Control" parent="GUICanvasLayer/Control/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
+hideonstart = NodePath("GUICanvasLayer/ColorRect")
 
 [node name="sky" type="Sprite2D" parent="."]
+position = Vector2(-25, -25)
 scale = Vector2(4.832, 4.832)
 texture = ExtResource("3_o6xl0")
 centered = false
 script = ExtResource("4_tipki")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="floor" type="Sprite2D" parent="."]
 position = Vector2(575.25, 711.25)
-scale = Vector2(4.7, 4.7)
+scale = Vector2(4.9, 4.9)
 texture = ExtResource("5_eb6dy")
 
 [node name="background" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 35)
-scale = Vector2(4.83193, 4.83193)
+position = Vector2(-25, 2.00001)
+scale = Vector2(5.05, 5.05)
 sprite_frames = SubResource("SpriteFrames_85g3d")
 autoplay = "default"
 frame_progress = 0.301589
@@ -293,7 +243,6 @@ DEATH_RIGHTWARD_PIXELS = -100.0
 position = Vector2(813.5, 333.812)
 scale = Vector2(7.875, 7.875)
 sprite_frames = ExtResource("5_tefeu")
-animation = &"death"
 script = ExtResource("4_jyhfs")
 particles2d = NodePath("../P2Particles")
 DEATH_RIGHTWARD_PIXELS = 150.0
@@ -350,6 +299,66 @@ scale_amount_min = 2.0
 scale_amount_max = 5.0
 color_ramp = SubResource("Gradient_85g3d")
 
+[node name="GUICanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="HealthBarsControl" type="Control" parent="GUICanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 550.0
+offset_right = 1150.0
+offset_bottom = 590.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUICanvasLayer/HealthBarsControl"]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Padding1" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+
+[node name="P1HealthBar" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+offset_left = 200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 20.0
+
+[node name="Padding2" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+
+[node name="P2HealthBar" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2" instance=ExtResource("1_o5qli")]
+layout_mode = 2
+offset_left = 200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 20.0
+
+[node name="Padding3" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="GUICanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
 position = Vector2(575, 325)
 limit_left = 0
@@ -360,19 +369,19 @@ script = ExtResource("3_choun")
 p1 = NodePath("../P1")
 p2 = NodePath("../P2")
 
-[connection signal="hit_left" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
+[connection signal="hit_left" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
 [connection signal="hit_left" from="." to="P2" method="_on_do_hit"]
 [connection signal="hit_left" from="." to="Camera2D" method="_on_hit_"]
-[connection signal="hit_right" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
+[connection signal="hit_right" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
 [connection signal="hit_right" from="." to="P1" method="_on_do_hit"]
 [connection signal="hit_right" from="." to="P2" method="_on_hit"]
 [connection signal="hit_right" from="." to="Camera2D" method="_on_hit_"]
-[connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
-[connection signal="reset" from="." to="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
+[connection signal="reset" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
+[connection signal="reset" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
 [connection signal="reset" from="." to="P1" method="_on_reset"]
 [connection signal="reset" from="." to="P2" method="_on_reset"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control/P1HealthBar" to="Camera2D" method="_on_p1_die"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/Control/HBoxContainer/Control2/P2HealthBar" to="Camera2D" method="_on_p2_die"]
+[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="Camera2D" method="_on_p1_die"]
+[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
+[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="Camera2D" method="_on_p2_die"]

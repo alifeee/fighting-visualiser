@@ -1,7 +1,7 @@
 extends Sprite2D
 
-const START = 0
-const END = -770.0
+const START = -25
+const END = -760.0
 const TRAVEL_TIME = 30
 var tween
 

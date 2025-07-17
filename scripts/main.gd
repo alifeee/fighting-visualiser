@@ -1,5 +1,8 @@
 extends Node2D
 
+var GAME_ACTIVE = false
+
+@export var hideonstart: ColorRect
 @export var health_unit = 1
 @export var health_step = 2 # 
 
@@ -23,12 +26,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		reset.emit()
+	if Input.is_action_just_pressed("start"):
+		start()
 	if Input.is_action_just_pressed("hit left"):
-		print("just hit left")
-		hit_left.emit(damage)
+		hit("left", damage)
 	if Input.is_action_just_pressed("hit right"):
-		print("just hit right")
-		hit_right.emit(damage)
+		hit("right", damage)
 	for i in range(len(set_health_actions)):
 		if Input.is_action_just_pressed(set_health_inputs[i]):
 			damage = (set_health_actions[i] * health_step) * health_unit
@@ -41,6 +44,19 @@ func _unhandled_input(event):
 			var SCREEN_SIZE_X = get_viewport().get_visible_rect().size.x
 			var PRESSED = event.position.x
 			if PRESSED < SCREEN_SIZE_X/2:
-				hit_left.emit(damage)
+				hit("left", damage)
 			else:
-				hit_right.emit(damage)
+				hit("right", damage)
+
+func hit(direction: String, hitdamage):
+	if not GAME_ACTIVE:
+		return
+	if direction == "left":
+		hit_left.emit(hitdamage)
+	elif direction == "right":
+		hit_left.emit(hitdamage)
+
+func start():
+	reset.emit()
+	if hideonstart:
+		hideonstart.visible = false

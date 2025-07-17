@@ -11,7 +11,7 @@ var trauma_power = 2  # Trauma exponent. Use [2, 3].
 ## How quickly the shaking stops [0, 1].
 @export var decay = 3
 ## Maximum hor/ver shake in pixels.
-@export var max_offset = Vector2(100, 75)
+@export var max_offset = Vector2(50, 25)
 ## Maximum rotation in radians (use sparingly).
 @export var max_roll = 0.1
 
