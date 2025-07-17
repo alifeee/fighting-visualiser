@@ -6,6 +6,7 @@ live background fighting animation with [Godot](https://godotengine.org/)
 
 ## controls:
 
+- `SPACE` - continue/start
 - `0`,`1`,`2`,`3`,`4`,`5`,`6`,`7`,`8`,`9`: set power level
 - `CTRL + R` / `ESC`: reset
 - `LEFT ARROW KEY`: hit left character
