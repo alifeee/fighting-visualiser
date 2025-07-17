@@ -1,7 +1,8 @@
-[gd_scene load_steps=44 format=3 uid="uid://38cj646iwg8v"]
+[gd_scene load_steps=45 format=3 uid="uid://38cj646iwg8v"]
 
 [ext_resource type="PackedScene" uid="uid://b64tkfd7jlw6v" path="res://scenes/health_bar.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://deejj6lhbd0na" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="Shader" uid="uid://cpxydm3gglvw" path="res://scripts/skyscroller.gdshader" id="2_jkv2x"]
 [ext_resource type="Script" uid="uid://c66ifx7nfqjq" path="res://scripts/camera.gd" id="3_choun"]
 [ext_resource type="Texture2D" uid="uid://cosx7hmo6oavl" path="res://assets/background_sky.png" id="3_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://dwj1i08chch0r" path="res://assets/background.png" id="3_tefeu"]
@@ -12,8 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://b4wuofxque8st" path="res://assets/Lizard-Neil_idle.png" id="6_choun"]
 [ext_resource type="Texture2D" uid="uid://f7pm8gah4mhn" path="res://assets/Lizard-Neil_gethit.png" id="7_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://dpdyj2td3oh50" path="res://assets/dust.png" id="9_85g3d"]
+[ext_resource type="Texture2D" uid="uid://cg80xq5vwy61a" path="res://assets/background_sky-intro.png" id="12_a8y0u"]
 [ext_resource type="Shader" uid="uid://vlvn1f4cdsil" path="res://scripts/greyscale.gdshader" id="13_a8y0u"]
-[ext_resource type="Texture2D" uid="uid://bewxqq1u2q7rv" path="res://icon.svg" id="14_jkv2x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
+shader = ExtResource("2_jkv2x")
+shader_parameter/speed = Vector2(0.01, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o6xl0"]
 atlas = ExtResource("3_tefeu")
@@ -207,25 +212,21 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_85g3d"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
-shader = ExtResource("13_a8y0u")
-shader_parameter/onoff = 0.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
 shader = ExtResource("13_a8y0u")
 shader_parameter/onoff = 0.0
 
 [node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter")]
 script = ExtResource("1_sugp2")
-hideonstart = NodePath("GUICanvasLayer/WhiteBeginScreen")
-greyscale_filter = NodePath("CanvasLayer/ColorRect")
+hideonstart = NodePath("HealthBars/WhiteBeginScreen")
+greyscale_filter = NodePath("Shaders/GreyscaleShader")
 
 [node name="sky" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_jbj1t")
 position = Vector2(-25, -25)
 scale = Vector2(4.832, 4.832)
 texture = ExtResource("3_o6xl0")
 centered = false
-script = ExtResource("4_tipki")
 
 [node name="floor" type="Sprite2D" parent="."]
 position = Vector2(575.25, 711.25)
@@ -310,59 +311,74 @@ scale_amount_min = 2.0
 scale_amount_max = 5.0
 color_ramp = SubResource("Gradient_85g3d")
 
-[node name="GUICanvasLayer" type="CanvasLayer" parent="."]
+[node name="HealthBars" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="HealthBarsControl" type="Control" parent="GUICanvasLayer"]
+[node name="HealthBarsControl" type="Control" parent="HealthBars"]
 layout_mode = 3
 anchors_preset = 0
 offset_top = 550.0
 offset_right = 1150.0
 offset_bottom = 590.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUICanvasLayer/HealthBarsControl"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthBars/HealthBarsControl"]
 layout_mode = 0
 offset_right = 1150.0
 offset_bottom = 40.0
 alignment = 1
 
-[node name="Padding1" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+[node name="Padding1" type="Control" parent="HealthBars/HealthBarsControl/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="Control" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+[node name="Control" type="Control" parent="HealthBars/HealthBarsControl/HBoxContainer"]
 custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
 
-[node name="P1HealthBar" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control" instance=ExtResource("1_o5qli")]
+[node name="P1HealthBar" parent="HealthBars/HealthBarsControl/HBoxContainer/Control" instance=ExtResource("1_o5qli")]
 layout_mode = 2
 offset_left = 200.0
 offset_top = 20.0
 offset_right = 200.0
 offset_bottom = 20.0
 
-[node name="Padding2" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+[node name="Padding2" type="Control" parent="HealthBars/HealthBarsControl/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+[node name="Control2" type="Control" parent="HealthBars/HealthBarsControl/HBoxContainer"]
 custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
 
-[node name="P2HealthBar" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2" instance=ExtResource("1_o5qli")]
+[node name="P2HealthBar" parent="HealthBars/HealthBarsControl/HBoxContainer/Control2" instance=ExtResource("1_o5qli")]
 layout_mode = 2
 offset_left = 200.0
 offset_top = 20.0
 offset_right = 200.0
 offset_bottom = 20.0
 
-[node name="Padding3" type="Control" parent="GUICanvasLayer/HealthBarsControl/HBoxContainer"]
+[node name="Padding3" type="Control" parent="HealthBars/HealthBarsControl/HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="TouchScreenButton" type="TouchScreenButton" parent="GUICanvasLayer"]
+[node name="IntroSkyBackground" type="ColorRect" parent="HealthBars"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.882353, 0.435294, 0.156863, 1)
 
-[node name="WhiteBeginScreen" type="ColorRect" parent="GUICanvasLayer"]
+[node name="IntroSky" type="Sprite2D" parent="HealthBars"]
+visible = false
+position = Vector2(-25, 170)
+scale = Vector2(4.832, 4.832)
+texture = ExtResource("12_a8y0u")
+centered = false
+script = ExtResource("4_tipki")
+
+[node name="WhiteBeginScreen" type="ColorRect" parent="HealthBars"]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -371,7 +387,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
+[node name="MainCamera" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
 position = Vector2(575, 325)
 limit_left = 0
 limit_top = 0
@@ -381,15 +397,9 @@ script = ExtResource("3_choun")
 p1 = NodePath("../P1")
 p2 = NodePath("../P2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_jbj1t")
-position = Vector2(567.283, 230.703)
-scale = Vector2(1.93308, 1.93308)
-texture = ExtResource("14_jkv2x")
+[node name="Shaders" type="CanvasLayer" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="GreyscaleShader" type="ColorRect" parent="Shaders"]
 material = SubResource("ShaderMaterial_a8y0u")
 anchors_preset = 15
 anchor_right = 1.0
@@ -400,20 +410,20 @@ color = Color(0.497342, 0.678499, 0.536991, 0)
 
 [connection signal="hit_left" from="." to="P1" method="_on_hit"]
 [connection signal="hit_left" from="." to="P2" method="_on_do_hit"]
-[connection signal="hit_left" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
-[connection signal="hit_left" from="." to="Camera2D" method="_on_hit_"]
+[connection signal="hit_left" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_hit"]
+[connection signal="hit_left" from="." to="MainCamera" method="_on_hit_"]
 [connection signal="hit_right" from="." to="P1" method="_on_do_hit"]
 [connection signal="hit_right" from="." to="P2" method="_on_hit"]
-[connection signal="hit_right" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
-[connection signal="hit_right" from="." to="Camera2D" method="_on_hit_"]
+[connection signal="hit_right" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_hit"]
+[connection signal="hit_right" from="." to="MainCamera" method="_on_hit_"]
 [connection signal="reset" from="." to="." method="_on_reset"]
 [connection signal="reset" from="." to="P1" method="_on_reset"]
 [connection signal="reset" from="." to="P2" method="_on_reset"]
-[connection signal="reset" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
-[connection signal="reset" from="." to="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="." method="_on_death"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="Camera2D" method="_on_p1_die"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="." method="_on_death"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
-[connection signal="zeroed" from="GUICanvasLayer/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="Camera2D" method="_on_p2_die"]
+[connection signal="reset" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
+[connection signal="reset" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="." method="_on_death"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="MainCamera" method="_on_p1_die"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="." method="_on_death"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="MainCamera" method="_on_p2_die"]
