@@ -213,12 +213,8 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_85g3d"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkv2x"]
-shader = ExtResource("2_jkv2x")
-shader_parameter/speed = Vector2(0.01, 0)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkv2x"]
-bg_color = Color(0.25, 0.25, 0.25, 0.294118)
+bg_color = Color(0.25, 0.25, 0.25, 0.717647)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -227,17 +223,23 @@ corner_radius_bottom_left = 20
 [sub_resource type="LabelSettings" id="LabelSettings_jkv2x"]
 font_size = 28
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jkv2x"]
+shader = ExtResource("2_jkv2x")
+shader_parameter/speed = Vector2(0.01, 0)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
 shader = ExtResource("13_a8y0u")
-shader_parameter/onoff = 0.0
+shader_parameter/onoff = 1.0
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter", "IntroSky", "IntroSkyBackground", "IntroSkyMenu")]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("hideonstart", "greyscale_filter", "IntroSky", "IntroSkyBackground", "IntroSkyMenu", "GameOverMenu", "GameOverMenu_WinnerLabel")]
 script = ExtResource("1_sugp2")
 hideonstart = NodePath("BeginScreen/BlackBeginScreen")
 greyscale_filter = NodePath("Shaders/GreyscaleShader")
 IntroSky = NodePath("IntroSky/IntroSky")
 IntroSkyBackground = NodePath("IntroSky/IntroSkyBackground")
-IntroSkyMenu = NodePath("IntroSky/CenterContainer/Container")
+IntroSkyMenu = NodePath("IntroSky/Menu/Container")
+GameOverMenu = NodePath("EndScreen/Menu2/Container")
+GameOverMenu_WinnerLabel = NodePath("EndScreen/Menu2/Container/VBoxContainer/RichTextLabel2")
 
 [node name="sky" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_jbj1t")
@@ -379,6 +381,66 @@ offset_bottom = 20.0
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
+[node name="EndScreen" type="CanvasLayer" parent="."]
+
+[node name="Menu2" type="CenterContainer" parent="EndScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="Control" parent="EndScreen/Menu2" node_paths=PackedStringArray("flash_selection")]
+custom_minimum_size = Vector2(450, 180)
+layout_mode = 2
+script = ExtResource("13_jbj1t")
+flash_selection = NodePath("VBoxContainer/Label")
+
+[node name="Panel" type="Panel" parent="EndScreen/Menu2/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jkv2x")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndScreen/Menu2/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RichTextLabel" type="Label" parent="EndScreen/Menu2/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_jkv2x")
+horizontal_alignment = 1
+
+[node name="Padding3" type="Control" parent="EndScreen/Menu2/Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="RichTextLabel2" type="Label" parent="EndScreen/Menu2/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "PLAYER 1 WINS!"
+horizontal_alignment = 1
+
+[node name="Padding2" type="Control" parent="EndScreen/Menu2/Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EndScreen/Menu2/Container/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_jkv2x")
+text = "> CONTINUE?"
+horizontal_alignment = 1
+
 [node name="IntroSky" type="CanvasLayer" parent="."]
 
 [node name="IntroSkyBackground" type="ColorRect" parent="IntroSky"]
@@ -396,21 +458,21 @@ scale = Vector2(4.832, 4.832)
 texture = ExtResource("12_a8y0u")
 centered = false
 
-[node name="CenterContainer" type="CenterContainer" parent="IntroSky"]
+[node name="Menu" type="CenterContainer" parent="IntroSky"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Container" type="Control" parent="IntroSky/CenterContainer" node_paths=PackedStringArray("flash_selection", "flash_dotdotdot")]
+[node name="Container" type="Control" parent="IntroSky/Menu" node_paths=PackedStringArray("flash_selection", "flash_dotdotdot")]
 custom_minimum_size = Vector2(450, 180)
 layout_mode = 2
 script = ExtResource("13_jbj1t")
 flash_selection = NodePath("VBoxContainer/2 PLAYER")
 flash_dotdotdot = NodePath("VBoxContainer/Label")
 
-[node name="Panel" type="Panel" parent="IntroSky/CenterContainer/Container"]
+[node name="Panel" type="Panel" parent="IntroSky/Menu/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -419,7 +481,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jkv2x")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="IntroSky/CenterContainer/Container"]
+[node name="VBoxContainer" type="VBoxContainer" parent="IntroSky/Menu/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -428,34 +490,34 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="RichTextLabel" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="RichTextLabel" type="Label" parent="IntroSky/Menu/Container/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_jkv2x")
 text = "START GAME"
 label_settings = SubResource("LabelSettings_jkv2x")
 horizontal_alignment = 1
 
-[node name="Padding2" type="Control" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="Padding2" type="Control" parent="IntroSky/Menu/Container/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="1 PLAYER" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="1 PLAYER" type="Label" parent="IntroSky/Menu/Container/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_jkv2x")
 text = "  1 PLAYER"
 horizontal_alignment = 1
 
-[node name="2 PLAYER" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="2 PLAYER" type="Label" parent="IntroSky/Menu/Container/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_jkv2x")
 text = "> 2 PLAYER"
 horizontal_alignment = 1
 
-[node name="Padding" type="Control" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="Padding" type="Control" parent="IntroSky/Menu/Container/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="IntroSky/CenterContainer/Container/VBoxContainer"]
+[node name="Label" type="Label" parent="IntroSky/Menu/Container/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_jkv2x")
 text = "PRESS A TO BEGIN…"
@@ -474,7 +536,6 @@ p2 = NodePath("../P2")
 [node name="BeginScreen" type="CanvasLayer" parent="."]
 
 [node name="BlackBeginScreen" type="ColorRect" parent="BeginScreen"]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -506,9 +567,9 @@ color = Color(0.497342, 0.678499, 0.536991, 0)
 [connection signal="reset" from="." to="P2" method="_on_reset"]
 [connection signal="reset" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" method="_on_reset"]
 [connection signal="reset" from="." to="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" method="_on_reset"]
-[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="." method="_on_death"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="." method="_on_p1_death"]
 [connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="P1" method="_on_die"]
 [connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control/P1HealthBar" to="MainCamera" method="_on_p1_die"]
-[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="." method="_on_death"]
+[connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="." method="_on_p2_death"]
 [connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="P2" method="_on_die"]
 [connection signal="zeroed" from="HealthBars/HealthBarsControl/HBoxContainer/Control2/P2HealthBar" to="MainCamera" method="_on_p2_die"]

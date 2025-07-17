@@ -6,10 +6,13 @@ extends Node2D
 @export var IntroSky_initialposition_y: float = 218.0
 @export var IntroSkyBackground: ColorRect
 @export var IntroSkyMenu: Control
+@export var GameOverMenu: Control
+@export var GameOverMenu_WinnerLabel: Label
 @export var health_unit = 1
 @export var health_step = 2 # 
 
 var intro_tween: Tween
+var gameover_tween: Tween
 
 signal reset
 
@@ -91,15 +94,33 @@ func _on_reset() -> void:
 	set_greyscale(0.0)
 	if intro_tween:
 		intro_tween.kill()
+	if gameover_tween:
+		gameover_tween.kill()
 	IntroSky.position.y = IntroSky_initialposition_y
 	IntroSkyBackground.color.a = 1.0
 	IntroSkyMenu.visible = true
+	GameOverMenu.modulate.a = 0.0
 	Globals.GAME_STATE = Globals.GAME_PRE_INTRO
+
+func _on_p1_death():
+	if Globals.GAME_STATE == Globals.GAME_PLAYING:
+		GameOverMenu_WinnerLabel.text = "PLAYER 2 WINS!"
+	_on_death()
+
+func _on_p2_death():
+	if Globals.GAME_STATE == Globals.GAME_PLAYING:
+		GameOverMenu_WinnerLabel.text = "PLAYER 1 WINS!"
+	_on_death()
 
 func _on_death():
 	set_greyscale(0.9)
 	Globals.GAME_STATE = Globals.GAME_DEAD
- 
+	const GAMEOVER_WIPE_DURATION = 1.5
+	gameover_tween = get_tree().create_tween()
+	gameover_tween.tween_property(
+		GameOverMenu, "modulate:a", 1.0, GAMEOVER_WIPE_DURATION
+	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
+   
 func set_greyscale(amt: float):
 	(greyscale_filter.material as ShaderMaterial
 	).set_shader_parameter("onoff", amt)
